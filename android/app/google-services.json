@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127986638245",
+    "project_id": "readinganalytichabitapp",
+    "storage_bucket": "readinganalytichabitapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127986638245:android:1ce4bdadfc1d6ca7ec1c4c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_demo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127986638245-et8ueqaot5v9kncj0rc7n24filkfetp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVui__kb7LwPvqXh4Lx611PMNh-n4AFhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127986638245-et8ueqaot5v9kncj0rc7n24filkfetp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
