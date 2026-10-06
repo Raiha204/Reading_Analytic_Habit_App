@@ -55,6 +55,27 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _confirmSignOut() async {
+    final shouldSignOut = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Log out?'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Log out'),
+          ),
+        ],
+      ),
+    );
+    if (shouldSignOut == true && mounted) widget.onSignOut?.call();
+  }
+
   Future<void> _chooseAvatar() async {
     final uid = widget.user?.uid;
     if (uid == null) {
@@ -168,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
             if (widget.onSignOut != null)
               IconCircleButton(
                 icon: Icons.logout_rounded,
-                onPressed: widget.onSignOut!,
+                onPressed: _confirmSignOut,
               ),
             const SizedBox(width: 8),
             IconCircleButton(
@@ -322,7 +343,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisCount: 3,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: 1,
+                childAspectRatio: .78,
                 children: [
                   for (final achievement in shelfAchievements)
                     _AchievementTile(achievement: achievement),

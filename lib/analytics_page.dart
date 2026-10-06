@@ -342,54 +342,42 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     DateTime today,
   ) {
     if (sessions.isEmpty) return const [];
+    final todayLocal = DateTime(today.year, today.month, today.day);
+    final isAllTime = _range == 'All time';
     final DateTime start;
     final int bucketCount;
     if (_range == 'Last 7 days') {
-      start = DateTime(
-        today.year,
-        today.month,
-        today.day,
-      ).subtract(const Duration(days: 6));
+      start = todayLocal.subtract(const Duration(days: 6));
       bucketCount = 7;
     } else if (_range == 'Last 30 days') {
-      start = DateTime(
-        today.year,
-        today.month,
-        today.day,
-      ).subtract(const Duration(days: 29));
+      start = todayLocal.subtract(const Duration(days: 29));
       bucketCount = 30;
     } else {
       final first = sessions
-          .map((item) => item.startedAt)
+          .map((item) => item.startedAt.toLocal())
           .reduce((a, b) => a.isBefore(b) ? a : b);
-      start = DateTime(first.year, first.month, first.day);
+      start = DateTime(first.year, first.month, 1);
       bucketCount =
-          DateTime(
-            today.year,
-            today.month,
-            today.day,
-          ).difference(start).inDays +
-          1;
+          (todayLocal.year - start.year) * 12 + todayLocal.month - start.month + 1;
     }
-    final count = bucketCount.clamp(1, 30);
-    final values = List<double>.filled(count, 0);
-    final spanDays = bucketCount;
+
+    final values = List<double>.filled(bucketCount.clamp(1, 1200), 0);
     for (final session in sessions) {
-      final day = DateTime(
-        session.startedAt.year,
-        session.startedAt.month,
-        session.startedAt.day,
-      );
-      final dayIndex = day.difference(start).inDays;
-      if (dayIndex < 0 || dayIndex >= spanDays) continue;
-      final index = bucketCount <= count
-          ? dayIndex
-          : (dayIndex * count / bucketCount).floor().clamp(0, count - 1);
+      final localStart = session.startedAt.toLocal();
+      final int index;
+      if (isAllTime) {
+        index = (localStart.year - start.year) * 12 +
+            localStart.month -
+            start.month;
+      } else {
+        final day = DateTime(localStart.year, localStart.month, localStart.day);
+        index = day.difference(start).inDays;
+      }
+      if (index < 0 || index >= values.length) continue;
       values[index] += session.durationMinutes.toDouble();
     }
     return values;
   }
-
 }
 
 class _TrendPill extends StatelessWidget {

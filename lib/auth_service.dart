@@ -158,6 +158,15 @@ class AuthService {
       }
       return error.message ?? 'Authentication failed. Please try again.';
     }
+    if (error is GoogleSignInException) {
+      if (const {
+        GoogleSignInExceptionCode.clientConfigurationError,
+        GoogleSignInExceptionCode.providerConfigurationError,
+      }.contains(error.code)) {
+        return 'Google sign-in is not configured for this app. In Firebase, add the Android SHA-1 and SHA-256 fingerprints for this build, enable Google sign-in, then download the updated google-services.json.';
+      }
+      return error.description ?? 'Google sign-in failed. Please try again.';
+    }
     return error.toString().replaceFirst('Exception: ', '');
   }
 }

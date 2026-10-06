@@ -189,6 +189,14 @@ class _ReaderPageState extends State<ReaderPage> {
               ),
             ),
           IconButton(
+            tooltip: 'Hide reading controls',
+            onPressed: _hideReaderChrome,
+            icon: const Icon(
+              Icons.visibility_off_rounded,
+              color: Color(0xFF3A403E),
+            ),
+          ),
+          IconButton(
             onPressed: _showReaderOptions,
             icon: const Icon(
               Icons.more_horiz_rounded,

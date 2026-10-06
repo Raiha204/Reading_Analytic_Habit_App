@@ -184,14 +184,23 @@ class _AuthPageState extends State<AuthPage> {
                         ),
                       ),
                       const SizedBox(height: 18),
-                      Text(
-                        _registering
-                            ? 'Create your reading account'
-                            : 'Welcome back, reader',
-                        style: const TextStyle(
-                          color: ReadingColors.forest,
-                          fontSize: 27,
-                          fontWeight: FontWeight.w800,
+                      SizedBox(
+                        width: double.infinity,
+                        child: FittedBox(
+                          alignment: Alignment.centerLeft,
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            _registering
+                                ? 'Create your reading account'
+                                : 'Welcome back, reader',
+                            maxLines: 1,
+                            softWrap: false,
+                            style: const TextStyle(
+                              color: ReadingColors.forest,
+                              fontSize: 27,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
